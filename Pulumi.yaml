@@ -1,0 +1,4 @@
+name: bkos.k8s
+description: A K8S Provisioning pulumi program
+runtime:
+    name: python
