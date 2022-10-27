@@ -392,14 +392,21 @@ cluster_tmpl = openstack.containerinfra.ClusterTemplate(
         provider=padmin
     ),
 )
-
+# get a new discovery_url
+master_count = o_k8s.get("master_count")
+discovery_url = o_k8s.get("discovery_url")
+discovery_url_endpoint = command.local.Command(
+    "discovery_url",
+    create=f"curl -s {discovery_url}/new?size={master_count}"
+)
 cluster = openstack.containerinfra.Cluster(
     f"{cluster_name}",
     name=f"{cluster_name}",
     cluster_template_id=cluster_tmpl.id,
-    master_count=o_k8s.get("master_count"),
+    master_count=master_count,
     node_count=o_k8s.get("node_count"),
-    opts=pulumi.ResourceOptions(provider=padmin),
+    discovery_url=discovery_url_endpoint.stdout,
+    opts=pulumi.ResourceOptions(provider=padmin)
 )
 
 ## create bastion
@@ -504,7 +511,7 @@ wait_sleep = command.local.Command(
     "wait_sleep",
     create=f"""while true;do
         echo 2>/dev/null > /dev/tcp/{bastion_fqdn}/22 && break || sleep 5;
-      done; sleep 120""",
+      done; sleep 180""",
     interpreter=["/bin/bash", "-c"],
     opts=pulumi.ResourceOptions(depends_on=[zone]),
 )

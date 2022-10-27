@@ -11,15 +11,20 @@ config:
 	pulumi config set 'cluster_name' 'lakers'
 	pulumi config set 'default_zone_name' 'pbos.local'
 	pulumi config set 'dns_zone_name' 'lakers.local'
+
 	pulumi config set --path 'flavor_master.vcpus' 4
 	pulumi config set --path 'flavor_master.ram' 4
 	pulumi config set --path 'flavor_master.disk' 50
 	pulumi config set --path 'flavor_node.vcpus' 4
 	pulumi config set --path 'flavor_node.ram' 4
 	pulumi config set --path 'flavor_node.disk' 50
+
 	pulumi config set --path 'k8s.master_count' 1
 	pulumi config set --path 'k8s.node_count' 1
+	pulumi config set --path 'k8s.discovery_url' \
+		'http://registry.pbos.local:8087'
 	pulumi config set --path 'k8s.subnet_cidr' '10.100.200.0/24'
+
 	pulumi config set --path 'k8s_template.master_lb_enabled' false
 	pulumi config set --path 'k8s_template.mlb_fip_enabled' false
 	pulumi config set --path 'k8s_template.floating_ip_enabled' false
