@@ -313,7 +313,7 @@ coredns_append = tmpl.render({
 
 tmpl = env.get_template("post_run.sh.j2")
 post_run = tmpl.render({
-    "k8s_ver": o_k8s_tmpl.get("k8s_ver"),
+    "endpoint_ip": config.get("endpoint_ip"),
     "helm_client_tag": o_k8s_tmpl.get("helm_client_tag"),
     "cluster_name": config.get("cluster_name"),
     "default_zone_name": config.get("default_zone_name"),

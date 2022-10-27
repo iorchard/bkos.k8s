@@ -70,6 +70,7 @@ config:
 	pulumi config set --path 'k8s_template.helm_client_sha256' \
 		'c12d2cd638f2d066fec123d0bd7f010f32c643afdf288d39a4610b1f9cb32af3'
 	pulumi config set --path 'k8s_template.helm_client_tag' 'v3.10.1'
+	pulumi config set 'endpoint_ip' '$(ENDPOINT_IP)'
 
 up: check
 	pulumi stack select $(STACK)

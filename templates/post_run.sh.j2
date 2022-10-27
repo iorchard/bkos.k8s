@@ -3,10 +3,10 @@
 USER="clex"
 TDIR="/home/${USER}"
 
-curl -Lo /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v{{ k8s_ver }}/bin/linux/amd64/kubectl
+curl -LO http://{{ endpoint_ip }}:7480/magnum/kubectl
 chmod 0755 /usr/bin/kubectl
 
-curl -Lo /tmp/helm.tar.gz https://get.helm.sh/helm-{{ helm_client_tag }}-linux-amd64.tar.gz
+curl -Lo /tmp/helm.tar.gz http://{{ endpoint_ip }}:7480/magnum/helm-{{ helm_client_tag }}-linux-amd64.tar.gz
 tar -C /tmp -xzf /tmp/helm.tar.gz
 cp /tmp/linux-amd64/helm /usr/bin/helm
 
