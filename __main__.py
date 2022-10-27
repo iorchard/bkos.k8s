@@ -295,8 +295,6 @@ tmpl = env.get_template("post_install.yml.j2")
 post_install = tmpl.render({
     "cluster_name": f"{cluster_name}"
 })
-with open(file="files/post_install.yml", mode="w", encoding="utf-8") as f:
-    f.write(post_install)
 
 with open(file="files/coredns_configmap.yml", mode="r", encoding="utf-8") as f:
     coredns_configmap = f.read()
@@ -306,28 +304,21 @@ coredns_default_append = tmpl.render({
     "default_zone_name": config.get("default_zone_name"),
     "dns_nameserver": dns_nameserver,
 })
-with open(file="files/coredns_default_append.yml",
-        mode="w", encoding="utf-8") as f:
-    f.write(coredns_default_append)
 
 tmpl = env.get_template("coredns_append.yml.j2")
 coredns_append = tmpl.render({
     "dns_zone_name": config.get("dns_zone_name"),
     "dns_nameserver": dns_nameserver,
 })
-with open(file="files/coredns_append.yml", mode="w", encoding="utf-8") as f:
-    f.write(coredns_append)
 
 tmpl = env.get_template("post_run.sh.j2")
 post_run = tmpl.render({
     "k8s_ver": o_k8s_tmpl.get("k8s_ver"),
-    "helm_ver": o_k8s_tmpl.get("helm_ver"),
+    "helm_client_tag": o_k8s_tmpl.get("helm_client_tag"),
     "cluster_name": config.get("cluster_name"),
     "default_zone_name": config.get("default_zone_name"),
     "dns_zone_name": config.get("dns_zone_name"),
 })
-with open(file="files/post_run.sh", mode="w", encoding="utf-8") as f:
-    f.write(post_run)
 
 tmpl = env.get_template("userdata.j2")
 userdata = tmpl.render({
@@ -342,8 +333,6 @@ userdata = tmpl.render({
     "coredns_append": coredns_append,
     "post_run": post_run,
 })
-with open(file="files/userdata", mode="w", encoding="utf-8") as f:
-    f.write(userdata)
 
 # create cluster template
 d_k8s_labels = {
@@ -368,6 +357,9 @@ d_k8s_labels = {
     "octavia_ingress_controller_tag": f"v{o_k8s_tmpl.get('other_ver')}",
     "kube_dashboard_enabled": "false",
     "availability_zone": o_k8s_tmpl.get('az'),
+    "helm_client_url": o_k8s_tmpl.get('helm_client_url'),
+    "helm_client_sha256": o_k8s_tmpl.get('helm_client_sha256'),
+    "helm_client_tag": o_k8s_tmpl.get('helm_client_tag'),
 }
 cluster_tmpl = openstack.containerinfra.ClusterTemplate(
     f"{cluster_name}-template",

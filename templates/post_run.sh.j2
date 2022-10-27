@@ -6,7 +6,7 @@ TDIR="/home/${USER}"
 curl -Lo /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v{{ k8s_ver }}/bin/linux/amd64/kubectl
 chmod 0755 /usr/bin/kubectl
 
-curl -Lo /tmp/helm.tar.gz https://get.helm.sh/helm-v{{ helm_ver }}-linux-amd64.tar.gz
+curl -Lo /tmp/helm.tar.gz https://get.helm.sh/helm-{{ helm_client_tag }}-linux-amd64.tar.gz
 tar -C /tmp -xzf /tmp/helm.tar.gz
 cp /tmp/linux-amd64/helm /usr/bin/helm
 
